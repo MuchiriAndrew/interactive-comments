@@ -10,7 +10,7 @@
             <div class="w-[10%] justify-center items-start py-[24px] hidden md:flex">
                 <div class="bg-light-gray h-[100px] w-[40px] flex flex-col justify-evenly items-center rounded-[10px]">
                     <p class="font-rubik text-light-grayish-blue font-medium">+</p>
-                    <p class="font-rubik text-moderate-blue font-medium">12</p>
+                    <p class="font-rubik text-moderate-blue font-medium">{{ post.upvotes }}</p>
                     <p class="font-rubik text-light-grayish-blue font-medium">-</p>
                 </div>
             </div>
@@ -19,21 +19,23 @@
                 class="w-full md:w-[90%] justify-center px-5 pt-[24px] md:py-[24px] md:pr-12 flex flex-col h-[80%] md:h-full">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-[16px]">
-                        <img class="w-[32px] h-[32px]" src="../../../public/images/avatars/image-juliusomo.webp" alt="">
+                        <img class="w-[32px] h-[32px]" :src="profile_photo_url" alt="">
 
-                        <h3 class="font-rubik font-semibold text-dark-blue ">juliusomo</h3>
+                        <h3 class="font-rubik font-semibold text-dark-blue ">{{ post.user.name }}</h3>
 
                         <div class="w-[36px] h-[19px] bg-moderate-blue flex justify-center items-center rounded-[2px]">
                             <p class="font-rubik text-white text-[13px] font-medium">you</p>
 
                         </div>
 
-                        <p class="font-rubik text-grayish-blue ">2 days ago</p>
+                        <p class="font-rubik text-grayish-blue ">{{ post.time }}</p>
 
                     </div>
 
                     <div class="items-center gap-[23.86px] hidden md:flex">
-                        <div @click="$emit('delete')" class="cursor-pointer items-center gap-[3px] flex">
+                        <div 
+                        
+                        @click="$emit('delete'), deletePost(post)" class="cursor-pointer items-center gap-[3px] flex">
                             <svg width="12" height="14" viewBox="0 0 12 14" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -72,10 +74,7 @@
 
                 </div>
                 <div v-else class="mt-[15px]">
-                    <p class="font-rubik text-grayish-blue">Impressive! Though it seems the drag feature could be
-                        improved. But overall it looks incredible. You’ve nailed the design and the responsiveness at
-                        various breakpoints works really well.
-                    </p>
+                    <p class="font-rubik text-grayish-blue">{{ post.content }}</p>
 
                 </div>
 
@@ -95,12 +94,14 @@
             <div class="w-full h-[20%] flex md:hidden justify-between items-center p-5">
                 <div class="bg-light-gray w-[100px] h-[40px] flex justify-evenly items-center rounded-[10px]">
                     <p class="font-rubik text-light-grayish-blue font-medium">+</p>
-                    <p class="font-rubik text-moderate-blue font-medium">12</p>
+                    <p class="font-rubik text-moderate-blue font-medium">{{ post.upvotes }}</p>
                     <p class="font-rubik text-light-grayish-blue font-medium">-</p>
                 </div>
 
                 <div class="items-center  gap-[23.86px] flex">
-                    <div @click="$emit('delete')" class="cursor-pointer items-center gap-[3px] flex">
+                    <div 
+                    
+                    @click="$emit('delete'), deletePost(post)" class="cursor-pointer items-center gap-[3px] flex">
                         <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M8.64458 1.16667H11.5261V2.33333H0V1.16667H2.88153L3.84633 0H7.67981L8.64458 1.16667ZM2.68944 14C1.8441 14 1.15261 13.3017 1.15261 12.4479V3.5H10.3735V12.4479C10.3735 13.3017 9.682 14 8.8367 14H2.68944Z"
@@ -129,18 +130,78 @@
 </template>
 
 <script>
+import { router, usePage } from '@inertiajs/vue3'
+import { useToast } from 'vue-toastification'
 export default {
     name: 'UserPost',
 
     data() {
         return {
             isEditing: false,
+            profile_photo_url: this.post.user.profile_picture_path
+          ? `/storage/${this.post.user.profile_picture_path}`
+          : '/images/avatars/default.jpg',
+        }
+    },
+
+    setup() {
+        const toast = useToast()
+        const { props } = usePage()
+        const flash = props.flash
+
+
+
+
+        if (flash && flash.success) {
+            toast.success(flash.success)
+        }
+
+        if (flash && flash.fail) {
+            toast.error(flash.fail)
+        }
+
+        return {
+            toast,
+            flash
+        }
+    },
+
+    props: {
+        post: {
+            type: Object,
+            required: true
         }
     },
 
     methods: {
         toggleEdit() {
             this.isEditing = !this.isEditing;
+
+        },
+
+        deletePost(post) {
+            
+
+            router.post('/delete', post, {
+                onError: (err) => {
+                    console.log(err); // Log the error to see its structure
+                    Object.keys(err).forEach(key => {
+                        this.errors[key] = err[key];
+                    });
+                    this.toast.error('Deletion failed. Please check the form for errors.');
+                },
+                onSuccess: () => {
+                    console.log('success');
+                    
+                    this.toast.success('Post Deleted');
+
+                    //reload the page
+                    location.reload();
+                   
+                }
+            });
+
+
 
         }
     },

@@ -15,6 +15,7 @@ function buildNestedPosts($posts, $parentId = null) {
         $profile_picture_path = $user->profile_photo_path;
 
         $post['user'] = [
+            'id' => $user_id,
             'name' => $name,
             'profile_picture_path' => $profile_picture_path
         ];

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,5 +18,11 @@ Route::middleware(['auth'])->group(function () {
    Route::get('/', [PageController::class, 'home'])->name('home');
    
    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+   Route::post('/create', [PostsController::class, 'create'])->name('create');
+
+   Route::post('/delete', [PostsController::class, 'delete'])->name('delete');
+
+
 });
 

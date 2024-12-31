@@ -10,11 +10,11 @@
         />
         <div v-if="dropdownOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
           <ul class="py-1">
-            <li class="cursor-pointer">
-              <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Edit Profile</a>
+            <li class="cursor-pointer flex justify-center items-center">
+              <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-rubik font-semibold">Edit Profile</a>
             </li>
-            <li class="cursor-pointer">
-              <a @click="handleLogout" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+            <li class="cursor-pointer flex justify-center items-center">
+              <a @click="handleLogout" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 font-rubik font-semibold">Logout</a>
             </li>
           </ul>
         </div>

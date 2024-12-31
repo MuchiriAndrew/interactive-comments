@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { onUpdated, reactive } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { useToast } from 'vue-toastification'
 
@@ -56,6 +56,26 @@ const isDeleting = reactive(false)
 function toggleModal() {
   isDeleting.value = !isDeleting.value
 }
+
+
+//updated hook
+onUpdated(() => {
+  // if (this.$page.props.flash.fail) {
+  //           var failMessage = this.$page.props.flash.fail;
+  //           this.toast.error(failMessage);
+
+  //           //delete the flash message so that it doesn't show again
+  //           this.$page.props.flash.fail = null;
+  //       }
+
+  //       if (this.$page.props.flash.success) {
+  //           var successMessage = this.$page.props.flash.success;
+  //           this.toast.error(successMessage);
+
+  //           //delete the flash message so that it doesn't show again
+  //           this.$page.props.flash.success = null;
+  //       }
+})
 </script>
 
 <style scoped>
