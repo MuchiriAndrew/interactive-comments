@@ -9,7 +9,7 @@
             <div class="w-[10%] justify-center items-start py-[24px] hidden md:flex">
                 <div class="bg-light-gray h-[100px] w-[40px] flex flex-col justify-evenly items-center rounded-[10px]">
                     <p class="font-rubik text-light-grayish-blue font-medium">+</p>
-                    <p class="font-rubik text-moderate-blue font-medium">12</p>
+                    <p class="font-rubik text-moderate-blue font-medium">{{ post.upvotes }}</p>
                     <p class="font-rubik text-light-grayish-blue font-medium">-</p>
                 </div>
             </div>
@@ -17,11 +17,11 @@
             <div class="w-full md:w-[90%] justify-center px-5 pt-[24px] md:py-[24px] md:pr-12 flex flex-col h-[80%] md:h-full">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-[16px]">
-                        <img class="w-[32px] h-[32px]" src="../../../public/images/avatars/image-amyrobson.webp" alt="">
+                        <img class="w-[32px] h-[32px]" :src="profile_photo_url" alt="">
 
-                        <h3 class="font-rubik font-semibold text-dark-blue ">amyrobson</h3>
+                        <h3 class="font-rubik font-semibold text-dark-blue ">{{ post.user.name }}</h3>
 
-                        <p class="font-rubik text-grayish-blue ">1 month ago</p>
+                        <p class="font-rubik text-grayish-blue ">{{ post.time }}</p>
 
                     </div>
 
@@ -41,9 +41,8 @@
                 </div>
 
                 <div class="mt-[15px]">
-                    <p class="font-rubik text-grayish-blue">Impressive! Though it seems the drag feature could be
-                        improved. But overall it looks incredible. You’ve nailed the design and the responsiveness at
-                        various breakpoints works really well.
+                    <p class="font-rubik text-grayish-blue">
+                        {{ post.content }}
                     
                   
                     </p>
@@ -54,7 +53,7 @@
             <div class=" h-[20%] flex md:hidden justify-between items-center p-5">
                 <div class="bg-light-gray w-[100px] h-[40px] flex justify-evenly items-center rounded-[10px]">
                     <p class="font-rubik text-light-grayish-blue font-medium">+</p>
-                    <p class="font-rubik text-moderate-blue font-medium">12</p>
+                    <p class="font-rubik text-moderate-blue font-medium">{{ post.upvotes }}</p>
                     <p class="font-rubik text-light-grayish-blue font-medium">-</p>
                 </div>
 
@@ -88,9 +87,19 @@ export default {
         Replying,
     },
 
+    props: {
+        post: {
+            type: Object,
+            required: true,
+        },
+    },
+
     data() {
         return {
             showReplying: false,
+            profile_photo_url: this.post.user.profile_picture_path
+          ? `/storage/${this.post.user.profile_picture_path}`
+          : '/images/avatars/default.jpg',
         };
     },
 

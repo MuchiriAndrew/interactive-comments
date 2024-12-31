@@ -22,5 +22,11 @@ class User extends Authenticatable
         'profile_photo_path',
     ];
 
+    //relationship with posts
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
     
 }

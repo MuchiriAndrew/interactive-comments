@@ -1,44 +1,39 @@
-<?php 
+<?php
 
-     function decodeBase64File($base64_file)
-    {
-        // Get the MIME type of the file
-        $mime_type = explode(';', $base64_file)[0];
-        $file_type = explode(':', $mime_type)[1];
+use App\Models\User;
 
-        $name = explode('|', $mime_type)[0];
-        $name = explode('.', $name)[0];
+function buildNestedPosts($posts, $parentId = null) {
+    $nestedPosts = [];
 
-        // Get the file extension based on the MIME type
-        $extensions = [
-            'image/jpeg' => 'jpg',
-            'image/png' => 'png',
-            'image/gif' => 'gif',
-            'application/pdf' => 'pdf',
-            'application/msword' => 'doc',
-            'application/docx' => 'docx',
-            'application/wps-office.docx' => 'docx',
-            'application/vnd.ms-excel' => 'xls',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
-            'application/vnd.ms-powerpoint' => 'ppt',
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
-            'text/plain' => 'txt',
-            'application/zip' => 'zip',
-            '*.docx' => 'docx'
-            // Add more MIME types and their corresponding extensions as needed
+    foreach ($posts as $post) {
+        // dd($post);
+        //get the user name and profile picture and place in the array
+        // $post['user'] = $post->user;
+        $user_id  = $post['user_id'];
+        $user = User::find($user_id);
+        $name = $user->name;
+        $profile_picture_path = $user->profile_photo_path;
+
+        $post['user'] = [
+            'name' => $name,
+            'profile_picture_path' => $profile_picture_path
         ];
 
-        $extension = $extensions[$file_type] ?? 'txt'; // Default extension
+        $updated_at = $post['updated_at'];
+        //calculate the difference in time and set it as e.g 2 hours ago, 3 days ago, 1 month ago
+        $time = Carbon\Carbon::parse($updated_at)->diffForHumans();
+        $post['time'] = $time;
+        // dd($time);
 
-        // Remove the 'data:image/png;base64,' part from the file data
-        // $file_data = preg_replace('/^data:.*;base64,/', '', $base64_file);
-        $file_data = preg_replace('/^.*\|data:.*;base64,/', '', $base64_file);
 
-        // Decode the base64 file data to raw binary data
-        $file_binary = base64_decode($file_data);
 
-        // Generate a filename for the file
-        $filename = $name . '.' . $extension;
-
-        return [$filename, $file_binary];
+        if ($post['parent_post_id'] == $parentId) {
+            $post['replies'] = buildNestedPosts($posts, $post['id']);
+            $nestedPosts[] = $post;
+        }
     }
+
+    // dd($nestedPosts);
+
+    return $nestedPosts;
+}
