@@ -8,7 +8,9 @@
         <div 
         v-if="post.user.id === $page.props.auth.user.id"
         class="w-full flex flex-col h-auto justify-end">
-            <UserPost :post="post" />
+            <UserPost 
+            :post="post"
+            />
         </div>
         <div 
         v-else
@@ -54,7 +56,7 @@ export default {
         post: {
             type: Object,
             required: true
-        }
+        },
     },
 
     // data() {

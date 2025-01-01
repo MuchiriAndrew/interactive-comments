@@ -21,7 +21,10 @@ Route::middleware(['auth'])->group(function () {
 
    Route::post('/create', [PostsController::class, 'create'])->name('create');
 
+   Route::post('/update', [PostsController::class, 'update'])->name('update');
+
    Route::post('/delete', [PostsController::class, 'delete'])->name('delete');
+   
 
 
 });

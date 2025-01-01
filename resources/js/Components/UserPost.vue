@@ -1,4 +1,8 @@
 <template>
+    <Modal v-if="isDeleting" @close="toggleModal"
+    :post_id="post.id"
+    :toggleModal="toggleModal"
+    ></Modal>
 
 
     <div class="comment w-full md:w-[730px] md:max-w-full flex justify-end items-center">
@@ -15,11 +19,12 @@
                 </div>
             </div>
 
-            <div
+            <form
+            @submit.prevent="submit"
                 class="w-full md:w-[90%] justify-center px-5 pt-[24px] md:py-[24px] md:pr-12 flex flex-col h-[80%] md:h-full">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-[16px]">
-                        <img class="w-[32px] h-[32px]" :src="profile_photo_url" alt="">
+                        <img class="w-[32px] h-[32px] rounded-full" :src="profile_photo_url" alt="">
 
                         <h3 class="font-rubik font-semibold text-dark-blue ">{{ post.user.name }}</h3>
 
@@ -35,7 +40,7 @@
                     <div class="items-center gap-[23.86px] hidden md:flex">
                         <div 
                         
-                        @click="$emit('delete'), deletePost(post)" class="cursor-pointer items-center gap-[3px] flex">
+                        @click="toggleModal" class="cursor-pointer items-center gap-[3px] flex">
                             <svg width="12" height="14" viewBox="0 0 12 14" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -69,7 +74,9 @@
 
                     <textarea style="border-width: 1px; resize: none; height: auto;"
                         class="w-full min-h-[96px] h-auto rounded-[8px] border-moderate-blue outline-0 pt-[12px] px-[24px] flex-grow"
-                        name="" id=""></textarea>
+                        name="" id=""
+                        v-model="updatedContent"
+                        ></textarea>
 
 
                 </div>
@@ -81,13 +88,15 @@
                 <div
                 v-if="isEditing" 
                 class="w-full flex justify-end items-center mt-[15px] md:mt-0">
-                    <button class="w-[104px] h-[48px] rounded-[8px] bg-moderate-blue text-white font-rubik font-medium">
+                    <button 
+                    type="submit"
+                    class="w-[104px] h-[48px] rounded-[8px] bg-moderate-blue text-white font-rubik font-medium">
                         UPDATE
                     </button>
 
                 </div>
 
-            </div>
+            </form>
 
 
 
@@ -101,7 +110,7 @@
                 <div class="items-center  gap-[23.86px] flex">
                     <div 
                     
-                    @click="$emit('delete'), deletePost(post)" class="cursor-pointer items-center gap-[3px] flex">
+                    @click="toggleModal" class="cursor-pointer items-center gap-[3px] flex">
                         <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                 d="M8.64458 1.16667H11.5261V2.33333H0V1.16667H2.88153L3.84633 0H7.67981L8.64458 1.16667ZM2.68944 14C1.8441 14 1.15261 13.3017 1.15261 12.4479V3.5H10.3735V12.4479C10.3735 13.3017 9.682 14 8.8367 14H2.68944Z"
@@ -132,8 +141,12 @@
 <script>
 import { router, usePage } from '@inertiajs/vue3'
 import { useToast } from 'vue-toastification'
+import Modal from './Modal.vue';
 export default {
     name: 'UserPost',
+    components: {
+        Modal
+    },
 
     data() {
         return {
@@ -141,6 +154,12 @@ export default {
             profile_photo_url: this.post.user.profile_picture_path
           ? `/storage/${this.post.user.profile_picture_path}`
           : '/images/avatars/default.jpg',
+          isDeleting: false,
+          updatedContent: this.post.content,
+
+          form: {
+            content: '',
+        },
         }
     },
 
@@ -170,7 +189,7 @@ export default {
         post: {
             type: Object,
             required: true
-        }
+        },
     },
 
     methods: {
@@ -179,30 +198,29 @@ export default {
 
         },
 
-        deletePost(post) {
-            
+        toggleModal() {
+            this.isDeleting = !this.isDeleting
+        },
 
-            router.post('/delete', post, {
+        submit() {
+            router.post('/update', {
+                post_id: this.post.id,
+                content: this.updatedContent
+            }, {
                 onError: (err) => {
                     console.log(err); // Log the error to see its structure
                     Object.keys(err).forEach(key => {
                         this.errors[key] = err[key];
                     });
-                    this.toast.error('Deletion failed. Please check the form for errors.');
+                    this.toast.error('Update failed. Please check the form for errors.');
                 },
                 onSuccess: () => {
                     console.log('success');
-                    
-                    this.toast.success('Post Deleted');
-
-                    //reload the page
+                    this.isEditing = false;
+                    this.toast.success('Update successful');
                     location.reload();
-                   
                 }
             });
-
-
-
         }
     },
 };

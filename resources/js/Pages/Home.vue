@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col last:justify-center items-center min-h-screen pt-10 gap-[8px]">
-    <Modal v-if="isDeleting" @close="toggleModal"></Modal>
+    <!-- <Modal v-if="isDeleting" @close="toggleModal"></Modal> -->
     <Navbar class="mb-10"></Navbar>
 
     <!-- <p class="text-2xl text-bold text-red-400">Welcome to Inertia.js with Vue and Tailwind CSS!</p> -->
@@ -13,19 +13,23 @@
       <!-- <UserPost @delete="toggleModal"></UserPost> -->
     </div>
 
-    <Replying></Replying>
+    <Replying
+    :isReplying="false"
+    :post_id="null"
+    ></Replying>
   </div>
 </template>
 
+
 <script setup>
-import { onUpdated, reactive } from 'vue'
+import { ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import { useToast } from 'vue-toastification'
 
 import Post from '../Components/Post.vue'
 import UserPost from '../Components/UserPost.vue'
 import Replying from '../Components/Replying.vue'
-import Modal from '../Components/Modal.vue'
+// import Modal from '../Components/Modal.vue'
 import Thread from '../Components/Thread.vue'
 import Navbar from '../Components/Navbar.vue'
 
@@ -37,7 +41,7 @@ const { props } = usePage()
 const flash = props.flash
 
 const user = props.auth.user;
-// console.log(user);
+console.log(user);
 
 if (flash.success) {
   toast.success(flash.success)
@@ -49,33 +53,16 @@ if (flash.success) {
 const posts = props.posts
 console.log(posts);
 
+// const isDeleting = ref(false)
 
+// function toggleModal() {
+//   isDeleting.value = !isDeleting.value
+// }
 
-const isDeleting = reactive(false)
-
-function toggleModal() {
-  isDeleting.value = !isDeleting.value
+function handleDelete() {
+  console.log('Delete event received');
+  // Perform the delete action here
 }
-
-
-//updated hook
-onUpdated(() => {
-  // if (this.$page.props.flash.fail) {
-  //           var failMessage = this.$page.props.flash.fail;
-  //           this.toast.error(failMessage);
-
-  //           //delete the flash message so that it doesn't show again
-  //           this.$page.props.flash.fail = null;
-  //       }
-
-  //       if (this.$page.props.flash.success) {
-  //           var successMessage = this.$page.props.flash.success;
-  //           this.toast.error(successMessage);
-
-  //           //delete the flash message so that it doesn't show again
-  //           this.$page.props.flash.success = null;
-  //       }
-})
 </script>
 
 <style scoped>

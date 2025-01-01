@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import { useToast } from 'vue-toastification'
 
@@ -105,6 +104,19 @@ export default {
                         this.errors[key] = err[key];
                     });
                     this.toast.error('Login failed. Please check the form for errors.');
+                },
+                onSuccess: () => {
+                    console.log('Login successful');
+
+                    if (this.$page.props.flash.fail) {
+                        var failMessage = this.$page.props.flash.fail;
+                        this.toast.error(failMessage);
+
+                        //delete the flash message so that it doesn't show again
+                        this.$page.props.flash.fail = null;
+                    }
+
+                   
                 }
             });
         },
@@ -112,16 +124,7 @@ export default {
 
 
     },
-    updated() {
-        // console.log(this.$page);
-        if (this.$page.props.flash.fail) {
-            var failMessage = this.$page.props.flash.fail;
-            this.toast.error(failMessage);
-
-            //delete the flash message so that it doesn't show again
-            this.$page.props.flash.fail = null;
-        }
-    }
+    
 
 }
 </script>

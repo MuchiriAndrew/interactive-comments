@@ -6,7 +6,7 @@
             class="h-auto min-w-full md:min-w-full bg-white rounded-[8px] flex flex-col md:flex-row md:justify-center items-center md:items-start md:gap-[16px] md:px-[24px] overflow-hidden">
 
             <div class="w-[40px] h-[40px] justify-center items-start pt-[24px] hidden md:flex">
-                <img class="w-[40px] h-[40px]" src="../../../public/images/avatars/image-juliusomo.webp" alt="">
+                <img class="w-[40px] h-[40px] rounded-full" :src="profile_photo_url" alt="">
             </div>
 
             <div
@@ -29,7 +29,11 @@
                     class="w-[104px] h-[48px] rounded-[8px] bg-moderate-blue text-white font-rubik font-medium">SEND</button>
             </div>
 
-            <input hidden type="text" name="reply_type">
+            <input
+            id="reply_type"
+            hidden type="text" name="reply_type"
+            v-model="form.reply_type"
+            >
 
 
 
@@ -52,16 +56,32 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import { useToast } from 'vue-toastification'
 
 export default {
+    props: {
+        isReplying: {
+            type: Boolean,
+            required: true,
+        },
+        post_id: {
+            type: Number,
+            required: false,
+        }
+    },
     data() {
         return {
             form: {
                 content: '',
+                reply_type: this.isReplying ? 'reply' : 'post',
+                parent_post_id: this.post_id,
+                
+                
             },
+            profile_photo_url: this.$page.props.auth.user.profile_photo_path
+          ? `/storage/${this.$page.props.auth.user.profile_photo_path}`
+          : '/images/avatars/default.jpg',
             errors: {}
         }
     },
@@ -105,7 +125,6 @@ export default {
 
                     //reload the page
                     location.reload();
-                   
                 }
             });
         },

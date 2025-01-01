@@ -1,7 +1,8 @@
 <template>
     <div class="thread flex flex-col gap-[8px]">
       <div v-for="post in posts" :key="post.id" class="main-post">
-        <PostThread :post="post" />
+        <PostThread
+        :post="post" />
       </div>
     </div>
   </template>

@@ -17,7 +17,7 @@
             <div class="w-full md:w-[90%] justify-center px-5 pt-[24px] md:py-[24px] md:pr-12 flex flex-col h-[80%] md:h-full">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-[16px]">
-                        <img class="w-[32px] h-[32px]" :src="profile_photo_url" alt="">
+                        <img class="w-[32px] h-[32px] rounded-full" :src="profile_photo_url" alt="">
 
                         <h3 class="font-rubik font-semibold text-dark-blue ">{{ post.user.name }}</h3>
 
@@ -74,6 +74,8 @@
 
         <Replying 
         v-if="showReplying"
+        :isReplying="showReplying"
+        :post_id="post.id"
         ></Replying>
     </div>
 </template>
@@ -96,6 +98,7 @@ export default {
 
     data() {
         return {
+            reply:true,
             showReplying: false,
             profile_photo_url: this.post.user.profile_picture_path
           ? `/storage/${this.post.user.profile_picture_path}`
@@ -106,6 +109,11 @@ export default {
     methods: {
         toggleReplying() {
             this.showReplying = !this.showReplying;
+
+            // this.$emit('reply', this.showReplying);
+
+            //get the input with an id of reply_type and set its value to 'reply'
+            // document.getElementById('reply_type').value = 'reply';
         },
     },
 };
