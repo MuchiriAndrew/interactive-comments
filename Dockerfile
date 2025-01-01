@@ -34,6 +34,11 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
+
+# Install JavaScript dependencies
+RUN npm install && npm run build
+
+
 # configure packages
 # RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
