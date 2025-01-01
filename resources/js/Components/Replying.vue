@@ -39,7 +39,7 @@
 
 
             <div class="w-full h-[20%] flex md:hidden justify-between items-center p-5">
-                <img class="w-[40px] h-[40px]" src="../../../public/images/avatars/image-juliusomo.webp" alt="">
+                <img class="w-[40px] h-[40px] rounded-full" :src="profile_photo_url" alt="">
 
 
                 <div class="items-center gap-2 flex">

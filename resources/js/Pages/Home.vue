@@ -14,6 +14,7 @@
     </div>
 
     <Replying
+    class="sticky bottom-0"
     :isReplying="false"
     :post_id="null"
     ></Replying>
