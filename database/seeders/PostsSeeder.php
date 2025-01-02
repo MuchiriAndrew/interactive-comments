@@ -50,14 +50,7 @@ class PostsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'user_id' => 3,
-                'parent_post_id' => 2,
-                'content' => 'This reply is directed at the second post. It adds more information and helps to clarify some points.',
-                'upvotes' => rand(0, 100),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            
             [
                 'user_id' => 1,
                 'parent_post_id' => 3,
