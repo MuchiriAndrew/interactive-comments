@@ -13,7 +13,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 1,
                 'parent_post_id' => null,
-                'content' => 'This is the first post content. It is about 30 words long and provides some initial information.',
+                'content' => 'This post discusses the importance of understanding HTML and CSS for building the structure and styling of modern websites.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -21,7 +21,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 2,
                 'parent_post_id' => null,
-                'content' => 'Here is another post content. It also contains around 30 words and gives some additional details.',
+                'content' => 'JavaScript is a crucial technology for creating dynamic and interactive web pages. This post covers its fundamentals.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -29,7 +29,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 3,
                 'parent_post_id' => null,
-                'content' => 'This post is written by a different user. It has about 30 words and shares some unique insights.',
+                'content' => 'This post introduces frameworks like React and Vue.js and how they simplify building user interfaces.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -37,7 +37,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 1,
                 'parent_post_id' => 1,
-                'content' => 'This is a reply to the first post. It continues the discussion and adds more context to the topic.',
+                'content' => 'Replying to the first post: Understanding the DOM is critical when working with HTML and CSS for better web structure.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -45,7 +45,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 2,
                 'parent_post_id' => 1,
-                'content' => 'Another reply to the first post. This one provides a different perspective and further elaborates on the subject.',
+                'content' => 'Another reply to the first post: CSS frameworks like Bootstrap are very useful for rapid styling and prototyping.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -53,7 +53,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 3,
                 'parent_post_id' => 2,
-                'content' => 'This reply is directed at the second post. It adds more information and helps to clarify some points.',
+                'content' => 'This reply emphasizes the importance of learning JavaScript ES6 features like arrow functions and promises.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -61,7 +61,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 1,
                 'parent_post_id' => 3,
-                'content' => 'Replying to the third post, this content provides additional insights and continues the conversation.',
+                'content' => 'Replying to the third post: Frameworks like Angular are also powerful for building complex frontend applications.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -69,7 +69,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 2,
                 'parent_post_id' => 4,
-                'content' => 'This is a reply to the reply of the first post. It adds more depth to the discussion and shares new ideas.',
+                'content' => 'Reply to the first reply: Flexbox and CSS Grid are game changers for modern web layouts.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -77,7 +77,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 3,
                 'parent_post_id' => 5,
-                'content' => 'Another reply to the reply of the first post. This one offers a different viewpoint and expands on the topic.',
+                'content' => 'Another reply: Tailwind CSS is gaining popularity for its utility-first approach to styling.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -85,7 +85,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 1,
                 'parent_post_id' => 6,
-                'content' => 'Replying to the reply of the second post, this content provides further clarification and additional information.',
+                'content' => 'Reply to the JavaScript post: Async/Await syntax is essential for managing asynchronous operations efficiently.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -93,7 +93,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 2,
                 'parent_post_id' => 7,
-                'content' => 'This is a reply to the reply of the third post. It continues the conversation and adds more context.',
+                'content' => 'Replying to the reply about frameworks: Vue.js has a gentle learning curve, making it ideal for beginners.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -101,7 +101,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 3,
                 'parent_post_id' => 8,
-                'content' => 'Another reply to the reply of the reply of the first post. This one provides new insights and elaborates on the topic.',
+                'content' => 'Another reply: Advanced CSS techniques, like using pseudo-elements, enhance the visual appeal of web designs.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -109,7 +109,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 1,
                 'parent_post_id' => 9,
-                'content' => 'Replying to the reply of the reply of the first post, this content adds more depth to the discussion.',
+                'content' => 'Replying again: Combining CSS and JavaScript for animations can create engaging user experiences.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -117,7 +117,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 2,
                 'parent_post_id' => 10,
-                'content' => 'This is a reply to the reply of the reply of the second post. It provides additional information and context.',
+                'content' => 'This reply discusses the importance of testing frameworks like Jest for ensuring JavaScript code reliability.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -125,7 +125,7 @@ class PostsSeeder extends Seeder
             [
                 'user_id' => 3,
                 'parent_post_id' => 11,
-                'content' => 'Another reply to the reply of the reply of the third post. This one offers a different perspective and expands on the topic.',
+                'content' => 'Another reply: Accessibility is crucial in frontend development to make web apps usable for everyone.',
                 'upvotes' => rand(0, 100),
                 'created_at' => now(),
                 'updated_at' => now(),
